@@ -5,7 +5,7 @@ import 'package:flutter_store/views/auth_page.dart';
 import 'package:flutter_store/views/products_overview_page.dart';
 
 class AuthHomePage extends StatelessWidget {
-  const AuthHomePage({Key key}) : super(key: key);
+  const AuthHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

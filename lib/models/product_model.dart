@@ -32,15 +32,15 @@ class ProductModel with ChangeNotifier {
       final String _baseUrl =
           '${AppUrl.BASE_API}/userFavorites/$userId/$id.json?auth=$token';
 
-      final response = await http.put(
-        _baseUrl,
-        body: json.encode(isFavorite),
+      final response = await http.patch(
+        Uri.parse(_baseUrl),
+        body: json.encode({"isFavorite": isFavorite}),
       );
 
       if (response.statusCode >= 400) {
         _toggleFavorite();
       }
-    } catch (error) {
+    } catch (_) {
       _toggleFavorite();
     }
   }

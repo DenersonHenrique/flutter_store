@@ -67,7 +67,7 @@ class OrderButtonWidget extends StatefulWidget {
   final CartProvider cartProvider;
 
   const OrderButtonWidget({
-    Key key,
+    Key? key,
     required this.cartProvider,
   }) : super(key: key);
 
@@ -88,18 +88,14 @@ class _OrderButtonWidgetState extends State<OrderButtonWidget> {
         onPressed: widget.cartProvider.totalAmount == 0
             ? null
             : () async {
-                setState(() {
-                  _isLoading = true;
-                });
+                setState(() => _isLoading = true);
 
                 await Provider.of<OrderProvider>(
                   context,
                   listen: false,
                 ).addOrder(widget.cartProvider);
 
-                setState(() {
-                  _isLoading = false;
-                });
+                setState(() => _isLoading = false);
 
                 widget.cartProvider.clear();
               },

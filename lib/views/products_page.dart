@@ -32,7 +32,7 @@ class ProductsPage extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () => _refreshProducts(context),
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
             itemCount: productsProvider.itemsCount,
             itemBuilder: (ctx, index) => Column(

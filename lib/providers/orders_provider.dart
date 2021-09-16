@@ -24,7 +24,9 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> loadOrders() async {
     List<OrderModel> loadedItems = [];
-    final response = await http.get('$_baseUrl/$_userId.json?auth=$_token');
+    final response = await http.get(
+      Uri.parse('$_baseUrl/$_userId.json?auth=$_token'),
+    );
     Map<String, dynamic> data = json.decode(response.body);
 
     // _items.clear();
@@ -55,20 +57,18 @@ class OrderProvider with ChangeNotifier {
   Future<void> addOrder(CartProvider cart) async {
     final date = DateTime.now();
     final response = await http.post(
-      '$_baseUrl/$_userId.json?auth=$_token',
+      Uri.parse('$_baseUrl/$_userId.json?auth=$_token'),
       body: json.encode({
         'total': cart.totalAmount,
         'date': date.toIso8601String(),
         'products': cart.items.values
-            .map(
-              (item) => {
-                'id': item.id,
-                'productId': item.productId,
-                'title': item.title,
-                'quantity': item.quantity,
-                'price': item.price
-              },
-            )
+            .map((item) => {
+                  'id': item.id,
+                  'productId': item.productId,
+                  'title': item.title,
+                  'quantity': item.quantity,
+                  'price': item.price
+                })
             .toList(),
       }),
     );
@@ -82,7 +82,6 @@ class OrderProvider with ChangeNotifier {
         products: cart.items.values.toList(),
       ),
     );
-
     notifyListeners();
   }
 }

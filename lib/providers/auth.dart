@@ -33,7 +33,7 @@ class Auth with ChangeNotifier {
         'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=';
 
     final response = await http.post(
-      url,
+      Uri.parse(url),
       body: jsonEncode(
         {
           "email": email,

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_store/utils/app_urls.dart';
+import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/models/product_model.dart';
+import 'package:flutter_store/exceptions/http_exception.dart';
 
 class ProductsProvider with ChangeNotifier {
   final String _baseUrl = '${AppUrl.BASE_API}/products';
@@ -23,9 +25,12 @@ class ProductsProvider with ChangeNotifier {
   } // Return copy of Items.
 
   Future<void> loadProducts() async {
-    final response = await http.get('$_baseUrl.json?auth=$_token');
-    final favoriteResponse = await http
-        .get('${AppUrl.BASE_API}/userFavorites/$_userId.json?auth=$_token');
+    final response = await http.get(
+      Uri.parse('$_baseUrl.json?auth=$_token'),
+    );
+    final favoriteResponse = await http.get(
+      Uri.parse('${AppUrl.BASE_API}/userFavorites/$_userId.json?auth=$_token'),
+    );
     final favoriteMap = jsonDecode(favoriteResponse.body);
 
     Map<String, dynamic> data = json.decode(response.body);
@@ -51,7 +56,7 @@ class ProductsProvider with ChangeNotifier {
 
   Future<void> addProduct(ProductModel product) async {
     final response = await http.post(
-      '$_baseUrl.json?auth=$_token',
+      Uri.parse('$_baseUrl.json?auth=$_token'),
       body: json.encode(
         {
           'name': product.name,
@@ -79,7 +84,7 @@ class ProductsProvider with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        '$_baseUrl/${product.id}.json?auth=$_token',
+        Uri.parse('$_baseUrl.json?auth=$_token'),
         body: json.encode({
           'name': product.name,
           'description': product.description,
@@ -100,12 +105,16 @@ class ProductsProvider with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
 
-      final response =
-          await http.delete('$_baseUrl/${product.id}.json?auth=$_token');
+      final response = await http.delete(
+        Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'),
+      );
       if (response.statusCode >= 400) {
         _items.insert(index, product);
         notifyListeners();
-        // throw HttpException('Erro ao excluir produto.');
+        throw HttpException(
+          msg: AppString.snackBarTextDeleteProdcutError,
+          statusCode: response.statusCode,
+        );
       }
     }
   }

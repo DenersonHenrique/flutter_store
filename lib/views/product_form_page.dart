@@ -98,7 +98,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       }
       Navigator.of(context).pop();
     } catch (error) {
-      await showDialog<Null>(
+      await showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text('Erro de requisição.'),
@@ -133,7 +133,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : Padding(
               padding: const EdgeInsets.all(15.0),
               child: Form(

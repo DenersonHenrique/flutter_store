@@ -30,5 +30,6 @@ class AppString {
   static String alertTextRemoveItemCart = 'Remover item do carrinho?';
   static String alertActionLabelConfirm = 'Sim';
   static String alertActionLabelCancel = 'Não';
-  static String snackBarTextDeleteProdcutError = 'Erro ao excluir produto.';
+  static String snackBarTextDeleteProdcutError =
+      'Não foi possível excluir o produto.';
 }

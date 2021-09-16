@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/utils/app_routes.dart';
 import 'package:flutter_store/models/product_model.dart';
+import 'package:flutter_store/exceptions/http_exception.dart';
 import 'package:flutter_store/providers/products_provider.dart';
 
 class ProductCrudWidget extends StatelessWidget {
@@ -61,11 +62,11 @@ class ProductCrudWidget extends StatelessWidget {
                           context,
                           listen: false,
                         ).deleteProduct(productModel.id);
-                      } catch (error) {
+                      } on HttpException catch (error) {
                         scaffold.showSnackBar(
                           SnackBar(
                             content: Text(
-                              AppString.snackBarTextDeleteProdcutError,
+                              error.toString(),
                             ),
                           ),
                         );

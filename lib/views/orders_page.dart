@@ -16,9 +16,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     Provider.of<OrderProvider>(context, listen: false).loadOrders().then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     });
     super.initState();
   }
