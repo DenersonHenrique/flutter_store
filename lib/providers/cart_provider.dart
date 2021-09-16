@@ -47,7 +47,6 @@ class CartProvider with ChangeNotifier {
         ),
       );
     }
-
     notifyListeners();
   }
 
@@ -61,7 +60,7 @@ class CartProvider with ChangeNotifier {
       return;
     }
 
-    if (_items[productID]!.quantity == 1) {
+    if (_items[productID]?.quantity == 1) {
       _items.remove(productID);
     } else {
       _items.update(
@@ -75,7 +74,6 @@ class CartProvider with ChangeNotifier {
         ),
       );
     }
-
     notifyListeners();
   }
 

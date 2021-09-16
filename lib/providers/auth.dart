@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_store/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  String _userId;
-  DateTime _expiryDate;
-  Timer _logoutTimer;
+  late String _token;
+  late String _userId;
+  late DateTime _expiryDate;
+  late Timer _logoutTimer;
 
   bool get isAuth => token != null;
 

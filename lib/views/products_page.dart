@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_routes.dart';
+import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/widgets/products_crud.dart';
 import 'package:flutter_store/widgets/app_drawer_widget.dart';
 import 'package:flutter_store/providers/products_provider.dart';
@@ -14,10 +15,11 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
     final products = productsProvider.items;
+
     return Scaffold(
       drawer: AppDrawerWidget(),
       appBar: AppBar(
-        title: Text('Produtos'),
+        title: Text(AppString.titleProducts),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
@@ -35,7 +37,7 @@ class ProductsPage extends StatelessWidget {
             itemCount: productsProvider.itemsCount,
             itemBuilder: (ctx, index) => Column(
               children: <Widget>[
-                ProductCrud(products[index]),
+                ProductCrudWidget(products[index]),
                 Divider(),
               ],
             ),

@@ -14,6 +14,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<ProductModel> get items => [..._items]; // Return copy/clone of Items.
 
+  int get itemsCount {
+    return _items.length;
+  }
+
   List<ProductModel> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
   } // Return copy of Items.
@@ -71,10 +75,6 @@ class ProductsProvider with ChangeNotifier {
   }
 
   Future<void> updateProducts(ProductModel product) async {
-    if (product == null || product.id == null) {
-      return;
-    }
-
     final index = _items.indexWhere((item) => item.id == product.id);
 
     if (index >= 0) {
@@ -94,6 +94,7 @@ class ProductsProvider with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final index = _items.indexWhere((item) => item.id == id);
+
     if (index >= 0) {
       final product = _items[index];
       _items.remove(product);
@@ -107,10 +108,6 @@ class ProductsProvider with ChangeNotifier {
         // throw HttpException('Erro ao excluir produto.');
       }
     }
-  }
-
-  int get itemsCount {
-    return _items.length;
   }
 
   // bool _showFavoriteOnly = false;

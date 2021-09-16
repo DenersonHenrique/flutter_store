@@ -64,12 +64,12 @@ class CartPage extends StatelessWidget {
 }
 
 class OrderButtonWidget extends StatefulWidget {
+  final CartProvider cartProvider;
+
   const OrderButtonWidget({
     Key key,
     required this.cartProvider,
   }) : super(key: key);
-
-  final CartProvider cartProvider;
 
   @override
   _OrderButtonWidgetState createState() => _OrderButtonWidgetState();
@@ -79,33 +79,31 @@ class _OrderButtonWidgetState extends State<OrderButtonWidget> {
   bool _isLoading = false;
 
   @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        textStyle: TextStyle(
-          color: Theme.of(context).primaryColor,
+  Widget build(BuildContext context) => TextButton(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
-      ),
-      onPressed: widget.cartProvider.totalAmount == 0
-          ? null
-          : () async {
-              setState(() {
-                _isLoading = true;
-              });
+        onPressed: widget.cartProvider.totalAmount == 0
+            ? null
+            : () async {
+                setState(() {
+                  _isLoading = true;
+                });
 
-              await Provider.of<OrderProvider>(
-                context,
-                listen: false,
-              ).addOrder(widget.cartProvider);
+                await Provider.of<OrderProvider>(
+                  context,
+                  listen: false,
+                ).addOrder(widget.cartProvider);
 
-              setState(() {
-                _isLoading = false;
-              });
+                setState(() {
+                  _isLoading = false;
+                });
 
-              widget.cartProvider.clear();
-            },
-      child:
-          _isLoading ? CircularProgressIndicator() : Text(AppString.labelBuy),
-    );
-  }
+                widget.cartProvider.clear();
+              },
+        child:
+            _isLoading ? CircularProgressIndicator() : Text(AppString.labelBuy),
+      );
 }

@@ -36,9 +36,11 @@ class ProductItemWidget extends StatelessWidget {
           backgroundColor: Colors.black87,
           leading: Consumer<ProductModel>(
             builder: (ctx, productModel, _) => IconButton(
-              icon: Icon(productModel.isFavorite
-                  ? Icons.favorite
-                  : Icons.favorite_border),
+              icon: Icon(
+                productModel.isFavorite
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+              ),
               color: Theme.of(context).colorScheme.secondary,
               onPressed: () => productModel.toggleFavorite(
                 auth.token,

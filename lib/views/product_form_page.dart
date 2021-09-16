@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/models/product_model.dart';
 import 'package:flutter_store/providers/products_provider.dart';
-import 'package:provider/provider.dart';
 
 class ProductFormPage extends StatefulWidget {
   @override
-  _ProductFormPageState createState() => _ProductFormState();
+  _ProductFormPageState createState() => _ProductFormPageState();
 }
 
-class _ProductFormPageState extends State<ProductForm> {
+class _ProductFormPageState extends State<ProductFormPage> {
+  bool _isLoading = false;
   final _priceFocusNode = FocusNode();
-  final _descriptionFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
+  final _descriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _formData = Map<String, Object>();
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -24,23 +25,28 @@ class _ProductFormPageState extends State<ProductForm> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _priceFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    _imageUrlFocusNode.removeListener(_updateImage);
+    _imageUrlFocusNode.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     if (_formData.isEmpty) {
-      final product = ModalRoute.of(context).settings.arguments as ProductModel;
+      final product =
+          ModalRoute.of(context)?.settings.arguments as ProductModel;
 
-      if (product != null) {
-        _formData['id'] = product.id;
-        _formData['title'] = product.name;
-        _formData['price'] = product.price;
-        _formData['description'] = product.description;
-        _formData['imageUrl'] = product.imageUrl;
-
-        _imageUrlController.text = _formData['imageUrl'];
-      } else {
-        _formData['price'] = '';
-      }
+      _formData['id'] = product.id;
+      _formData['title'] = product.name;
+      _formData['price'] = product.price;
+      _formData['description'] = product.description;
+      _formData['imageUrl'] = product.imageUrl;
+      _imageUrlController.text = product.imageUrl;
     }
   }
 
@@ -62,18 +68,20 @@ class _ProductFormPageState extends State<ProductForm> {
   }
 
   Future<void> _saveForm() async {
-    if (!_form.currentState.validate()) {
+    final isValid = _form.currentState?.validate() ?? false;
+
+    if (isValid) {
       return;
     }
 
-    _form.currentState.save();
+    _form.currentState!.save();
 
     final newProduct = ProductModel(
-      id: _formData['id'],
-      name: _formData['name'],
-      price: _formData['price'],
-      description: _formData['description'],
-      imageUrl: _formData['imageUrl'],
+      id: _formData['id'] as String,
+      name: _formData['name'] as String,
+      price: _formData['price'] as double,
+      description: _formData['description'] as String,
+      imageUrl: _formData['imageUrl'] as String,
     );
 
     final products = Provider.of<ProductsProvider>(context, listen: false);
@@ -111,24 +119,15 @@ class _ProductFormPageState extends State<ProductForm> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _priceFocusNode.dispose();
-    _descriptionFocusNode.dispose();
-    _imageUrlFocusNode.removeListener(_updateImage);
-    _imageUrlFocusNode.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário Produto'),
+        title: Text(AppString.titleProductForm),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              _saveForm();
+              _saveForm;
             },
           )
         ],
@@ -141,27 +140,26 @@ class _ProductFormPageState extends State<ProductForm> {
                 key: _form,
                 child: ListView(
                   children: <Widget>[
-                    // Name
                     TextFormField(
-                      initialValue: _formData['name'],
+                      initialValue: _formData['name'] as String,
                       decoration: InputDecoration(labelText: 'Nome'),
                       textInputAction:
                           TextInputAction.next, // Next Input keyboard.
-                      // Next action.
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocusNode);
                       },
-                      onSaved: (value) => _formData['name'] = value,
+                      onSaved: (value) => _formData['name'] = value ?? '',
                       validator: (value) {
-                        if (value.trim().isEmpty)
-                          return 'Informar nome.';
+                        final name = value ?? '';
+                        if (name.trim().isEmpty) return 'Informar nome.';
+                        if (name.trim().length < 3)
+                          return 'Mínimo de 3 caracteres.';
                         else
                           return null;
                       },
                     ),
-                    // Price
                     TextFormField(
-                      initialValue: _formData['price'].toString(),
+                      initialValue: _formData['price']?.toString(),
                       decoration: InputDecoration(labelText: 'Preço'),
                       textInputAction:
                           TextInputAction.next, // Next Input keyboard.
@@ -174,32 +172,32 @@ class _ProductFormPageState extends State<ProductForm> {
                             .requestFocus(_descriptionFocusNode);
                       },
                       onSaved: (value) =>
-                          _formData['price'] = double.parse(value),
+                          _formData['price'] = double.parse(value ?? ''),
                       validator: (value) {
-                        if (value.trim().isEmpty ||
-                            (double.tryParse(value) == null ||
-                                double.tryParse(value) == 0))
-                          return 'Informar um preço válido.';
-                        else
+                        final priceString = value ?? '';
+                        final price = double.tryParse(priceString) ?? -1;
+                        if (price <= 0) {
+                          return 'Informe um preço válido.';
+                        } else
                           return null;
                       },
                     ),
-                    // Decription
                     TextFormField(
-                      initialValue: _formData['description'],
+                      initialValue: _formData['description'] as String,
                       decoration: InputDecoration(labelText: 'Descrição'),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       focusNode: _descriptionFocusNode,
-                      onSaved: (value) => _formData['description'] = value,
+                      onSaved: (value) =>
+                          _formData['description'] = value ?? '',
                       validator: (value) {
-                        if (value.trim().isEmpty)
+                        final description = value ?? '';
+                        if (description.trim().isEmpty)
                           return 'Informar descrição.';
                         else
                           return null;
                       },
                     ),
-                    // Image
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -213,30 +211,35 @@ class _ProductFormPageState extends State<ProductForm> {
                             focusNode: _imageUrlFocusNode,
                             controller: _imageUrlController,
                             onFieldSubmitted: (_) {
-                              _saveForm();
+                              _saveForm;
                             },
-                            onSaved: (value) => _formData['imageUrl'] = value,
+                            onSaved: (value) =>
+                                _formData['imageUrl'] = value ?? '',
                             validator: (value) {
-                              if (value.trim().isEmpty ||
-                                  !isValidImageUrl(value))
+                              final imageURL = value ?? '';
+                              if (imageURL.trim().isEmpty ||
+                                  !isValidImageUrl(imageURL))
                                 return 'Informar uma url válida.';
                               else
                                 return null;
                             },
                           ),
                         ),
-                        // Image Preview
                         Container(
-                          width: 100,
-                          height: 100,
-                          margin: EdgeInsets.only(top: 8.0, left: 10),
+                          width: 100.0,
+                          height: 100.0,
+                          margin: const EdgeInsets.only(
+                            top: 8.0,
+                            left: 10.0,
+                          ),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                            color: Colors.grey,
-                            width: 1,
-                          )),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ),
                           child: _imageUrlController.text.isEmpty
-                              ? Text('Informe URL')
+                              ? Text(AppString.labelProductUrlInfo)
                               : Image.network(
                                   _imageUrlController.text,
                                   fit: BoxFit.cover,

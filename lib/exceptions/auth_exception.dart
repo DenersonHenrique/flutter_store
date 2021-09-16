@@ -13,7 +13,7 @@ class AuthException implements Exception {
   const AuthException(this.key);
 
   @override
-  String toString() {
+  String? toString() {
     return errors.containsKey(key)
         ? errors[key]
         : 'Ocorreu um erro durante atenticação';

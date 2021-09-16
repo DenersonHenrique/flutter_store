@@ -13,10 +13,13 @@ class AppString {
   static String labelUndo = 'DESFAZER';
   static String labelEmail = 'E-mail';
   static String labelPassword = 'Senha';
+  static String labelProductUrlInfo = 'Informe URL';
   static String labelConfirmPassword = 'Confirmar senha';
   static String titleCart = 'Carrinho';
   static String titleAlertError = 'Erro!';
+  static String titleProducts = 'Produtos';
   static String titleMyOrders = 'Meus Pedidos';
+  static String titleProductForm = 'Formulário Produto';
   static String closeAlertError = 'Fechar';
   static String drawerLabelStore = 'Loja';
   static String drawerLabelOrders = 'Pedidos';
