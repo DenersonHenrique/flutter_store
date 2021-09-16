@@ -3,17 +3,17 @@ import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/utils/app_routes.dart';
 
+import 'package:flutter_store/views/cart_page.dart';
+import 'package:flutter_store/views/orders_page.dart';
+import 'package:flutter_store/views/products_page.dart';
+import 'package:flutter_store/views/auth_home_page.dart';
+import 'package:flutter_store/views/product_form_page.dart';
+import 'package:flutter_store/views/product_detail_page.dart';
+
 import 'package:flutter_store/providers/auth.dart';
 import 'package:flutter_store/providers/cart_provider.dart';
 import 'package:flutter_store/providers/orders_provider.dart';
 import 'package:flutter_store/providers/products_provider.dart';
-
-import 'package:flutter_store/views/cart_page.dart';
-import 'package:flutter_store/views/orders_page.dart';
-import 'package:flutter_store/views/product_form.dart';
-import 'package:flutter_store/views/products_page.dart';
-import 'package:flutter_store/views/auth_home_page.dart';
-import 'package:flutter_store/views/product_detail_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.CART: (ctx) => CartPage(),
           AppRoutes.ORDERS: (ctx) => OrderPage(),
           AppRoutes.PRODUCTS: (ctx) => ProductsPage(),
-          AppRoutes.PRODUCT_FORM: (ctx) => ProductForm(),
+          AppRoutes.PRODUCT_FORM: (ctx) => ProductFormPage(),
         },
       ),
     );

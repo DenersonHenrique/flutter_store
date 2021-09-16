@@ -3,12 +3,12 @@ import 'package:flutter_store/models/product_model.dart';
 import 'package:flutter_store/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
-class ProductForm extends StatefulWidget {
+class ProductFormPage extends StatefulWidget {
   @override
-  _ProductFormState createState() => _ProductFormState();
+  _ProductFormPageState createState() => _ProductFormState();
 }
 
-class _ProductFormState extends State<ProductForm> {
+class _ProductFormPageState extends State<ProductForm> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
@@ -32,7 +32,7 @@ class _ProductFormState extends State<ProductForm> {
 
       if (product != null) {
         _formData['id'] = product.id;
-        _formData['title'] = product.title;
+        _formData['title'] = product.name;
         _formData['price'] = product.price;
         _formData['description'] = product.description;
         _formData['imageUrl'] = product.imageUrl;
@@ -70,7 +70,7 @@ class _ProductFormState extends State<ProductForm> {
 
     final newProduct = ProductModel(
       id: _formData['id'],
-      title: _formData['title'],
+      name: _formData['name'],
       price: _formData['price'],
       description: _formData['description'],
       imageUrl: _formData['imageUrl'],
@@ -141,20 +141,20 @@ class _ProductFormState extends State<ProductForm> {
                 key: _form,
                 child: ListView(
                   children: <Widget>[
-                    // Title
+                    // Name
                     TextFormField(
-                      initialValue: _formData['title'],
-                      decoration: InputDecoration(labelText: 'Título'),
+                      initialValue: _formData['name'],
+                      decoration: InputDecoration(labelText: 'Nome'),
                       textInputAction:
                           TextInputAction.next, // Next Input keyboard.
                       // Next action.
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocusNode);
                       },
-                      onSaved: (value) => _formData['title'] = value,
+                      onSaved: (value) => _formData['name'] = value,
                       validator: (value) {
                         if (value.trim().isEmpty)
-                          return 'Informar título.';
+                          return 'Informar nome.';
                         else
                           return null;
                       },

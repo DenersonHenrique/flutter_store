@@ -5,7 +5,7 @@ import 'package:flutter_store/models/cart_item_model.dart';
 import 'package:flutter_store/providers/cart_provider.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final CartItem cartItem;
+  final CartItemModel cartItem;
 
   const CartItemWidget(this.cartItem);
 
