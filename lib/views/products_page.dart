@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_store/utils/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_store/utils/app_routes.dart';
 import 'package:flutter_store/widgets/products_crud.dart';
-import 'package:flutter_store/providers/products.dart';
 import 'package:flutter_store/widgets/app_drawer_widget.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 
 class ProductsPage extends StatelessWidget {
   Future<void> _refreshProducts(BuildContext context) async {

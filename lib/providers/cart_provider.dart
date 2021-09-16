@@ -2,27 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_store/models/product_model.dart';
+import 'package:flutter_store/models/cart_item_model.dart';
 
-class CartItem {
-  final String id;
-  final String productId;
-  final String title;
-  final int quantity;
-  final double price;
+class CartProvider with ChangeNotifier {
+  Map<String, CartItemModel> _items = {};
 
-  CartItem({
-    @required this.id,
-    @required this.productId,
-    @required this.title,
-    @required this.price,
-    @required this.quantity,
-  });
-}
-
-class Cart with ChangeNotifier {
-  Map<String, CartItem> _items = {};
-
-  Map<String, CartItem> get items {
+  Map<String, CartItemModel> get items {
     return {..._items};
   }
 
@@ -42,7 +27,7 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id,
-        (element) => CartItem(
+        (element) => CartItemModel(
           id: element.id,
           productId: product.id,
           title: element.title,
@@ -53,10 +38,10 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(
         product.id,
-        () => CartItem(
+        () => CartItemModel(
           id: Random().nextDouble().toString(),
           productId: product.id,
-          title: product.title,
+          title: product.name,
           price: product.price,
           quantity: 1,
         ),
@@ -76,12 +61,12 @@ class Cart with ChangeNotifier {
       return;
     }
 
-    if (_items[productID].quantity == 1) {
+    if (_items[productID]!.quantity == 1) {
       _items.remove(productID);
     } else {
       _items.update(
         productID,
-        (element) => CartItem(
+        (element) => CartItemModel(
           id: element.id,
           productId: productID,
           title: element.title,

@@ -12,7 +12,7 @@ class ProductsProvider with ChangeNotifier {
 
   ProductsProvider([this._token, this._userId, this._items = const []]);
 
-  List<ProductModel> get items => [..._items]; // Return copy of Items.
+  List<ProductModel> get items => [..._items]; // Return copy/clone of Items.
 
   List<ProductModel> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
@@ -27,23 +27,21 @@ class ProductsProvider with ChangeNotifier {
     Map<String, dynamic> data = json.decode(response.body);
     _items.clear();
 
-    if (data != null) {
-      data.forEach((key, value) {
-        final isFavorite =
-            favoriteMap == null ? false : favoriteMap[key] ?? false;
-        _items.add(
-          ProductModel(
-            id: key,
-            title: value['title'],
-            price: value['price'],
-            description: value['description'],
-            imageUrl: value['imageUrl'],
-            isFavorite: isFavorite,
-          ),
-        );
-      });
-      notifyListeners();
-    }
+    data.forEach((key, value) {
+      final isFavorite =
+          favoriteMap == null ? false : favoriteMap[key] ?? false;
+      _items.add(
+        ProductModel(
+          id: key,
+          name: value['name'],
+          price: value['price'],
+          description: value['description'],
+          imageUrl: value['imageUrl'],
+          isFavorite: isFavorite,
+        ),
+      );
+    });
+    notifyListeners();
     return Future.value();
   }
 
@@ -52,7 +50,7 @@ class ProductsProvider with ChangeNotifier {
       '$_baseUrl.json?auth=$_token',
       body: json.encode(
         {
-          'title': product.title,
+          'name': product.name,
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
@@ -63,7 +61,7 @@ class ProductsProvider with ChangeNotifier {
     _items.add(
       ProductModel(
         id: json.decode(response.body)['name'],
-        title: product.title,
+        name: product.name,
         price: product.price,
         description: product.description,
         imageUrl: product.imageUrl,
@@ -83,7 +81,7 @@ class ProductsProvider with ChangeNotifier {
       await http.patch(
         '$_baseUrl/${product.id}.json?auth=$_token',
         body: json.encode({
-          'title': product.title,
+          'name': product.name,
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,

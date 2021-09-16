@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_store/models/product_model.dart';
-import 'package:flutter_store/providers/products.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductForm extends StatefulWidget {

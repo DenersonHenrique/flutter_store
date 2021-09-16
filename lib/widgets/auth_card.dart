@@ -23,7 +23,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
   final _passwordController = TextEditingController();
 
   Future<void> _submit() async {
-    if (!_form.currentState.validate()) {
+    if (!_form.currentState!.validate()) {
       return;
     }
 
@@ -31,7 +31,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
       _isLoading = true;
     });
 
-    _form.currentState.save();
+    _form.currentState!.save();
 
     Auth auth = Provider.of(context, listen: false);
 
@@ -105,12 +105,12 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
-                  if (value.isEmpty || !value.contains('@')) {
+                  if (value!.isEmpty || !value.contains('@')) {
                     return AppString.authInvalidEmail;
                   }
                   return null;
                 },
-                onSaved: (value) => _authData['email'] = value,
+                onSaved: (value) => _authData['email'] = value!,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -120,12 +120,12 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                 obscureText: true,
                 controller: _passwordController,
                 validator: (value) {
-                  if (value.isEmpty || value.length < 5) {
+                  if (value!.isEmpty || value.length < 5) {
                     return AppString.authInvalidPassword;
                   }
                   return null;
                 },
-                onSaved: (value) => _authData['password'] = value,
+                onSaved: (value) => _authData['password'] = value!,
               ),
               if (_authMode == AuthMode.Signup)
                 TextFormField(

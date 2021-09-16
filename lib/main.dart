@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/utils/app_routes.dart';
 
-import 'package:flutter_store/providers/cart.dart';
 import 'package:flutter_store/providers/auth.dart';
-import 'package:flutter_store/providers/orders.dart';
-import 'package:flutter_store/providers/products.dart';
+import 'package:flutter_store/providers/cart_provider.dart';
+import 'package:flutter_store/providers/orders_provider.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 
 import 'package:flutter_store/views/cart_page.dart';
 import 'package:flutter_store/views/orders_page.dart';
@@ -30,26 +30,28 @@ class MyApp extends StatelessWidget {
           update: (ctx, auth, previousProducts) => ProductsProvider(
             auth.token,
             auth.userId,
-            previousProducts.items,
+            previousProducts!.items,
           ),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Cart(),
+          create: (ctx) => CartProvider(),
         ),
-        ChangeNotifierProxyProvider<Auth, Orders>(
-          create: (_) => new Orders(),
-          update: (ctx, auth, previousOrders) => Orders(
+        ChangeNotifierProxyProvider<Auth, OrderProvider>(
+          create: (_) => new OrderProvider(),
+          update: (ctx, auth, previousOrders) => OrderProvider(
             auth.token,
             auth.userId,
-            previousOrders.orders,
+            previousOrders!.items,
           ),
         ),
       ],
       child: MaterialApp(
         title: AppString.appTitle,
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.purple,
+            accentColor: Colors.deepOrange,
+          ),
           fontFamily: 'Lato',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(

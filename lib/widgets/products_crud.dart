@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_string.dart';
 import 'package:flutter_store/utils/app_routes.dart';
-import 'package:flutter_store/providers/products.dart';
 import 'package:flutter_store/models/product_model.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 // import 'package:flutter_store/exceptions/http_exception.dart';
 
 class ProductCrud extends StatelessWidget {
@@ -17,7 +17,7 @@ class ProductCrud extends StatelessWidget {
     return ListTile(
       leading:
           CircleAvatar(backgroundImage: NetworkImage(productModel.imageUrl)),
-      title: Text(productModel.title),
+      title: Text(productModel.name),
       trailing: Container(
         width: 100,
         child: Row(
@@ -40,7 +40,7 @@ class ProductCrud extends StatelessWidget {
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: Text(AppString.alertTitleConfirmDelete),
-                    content: Text("Remover \'${productModel.title}'?"),
+                    content: Text("Remover \'${productModel.name}'?"),
                     actions: <Widget>[
                       TextButton(
                         child: Text(AppString.alertActionLabelConfirm),

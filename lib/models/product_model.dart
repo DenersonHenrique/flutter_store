@@ -5,24 +5,24 @@ import 'package:flutter_store/utils/app_urls.dart';
 
 class ProductModel with ChangeNotifier {
   final String id;
-  final String title;
+  final String name;
   final String description;
   final double price;
   final String imageUrl;
   bool isFavorite;
 
   ProductModel({
-    this.id,
-    @required this.title,
-    @required this.price,
-    @required this.description,
-    @required this.imageUrl,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.imageUrl,
     this.isFavorite = false,
   });
 
   void _toggleFavorite() {
     isFavorite = !isFavorite;
-    notifyListeners(); // Notify components
+    notifyListeners();
   }
 
   Future<void> toggleFavorite(String token, String userId) async {

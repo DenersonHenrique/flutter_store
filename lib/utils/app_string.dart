@@ -8,11 +8,15 @@ class AppString {
   static String authSignin = 'ENTRAR';
   static String authRegister = 'REGISTRAR';
   static String notConfirmedPassword = 'Senhas diferentes.';
+  static String labelBuy = 'COMPRAR';
+  static String labelTotal = 'Total';
   static String labelUndo = 'DESFAZER';
   static String labelEmail = 'E-mail';
   static String labelPassword = 'Senha';
   static String labelConfirmPassword = 'Confirmar senha';
+  static String titleCart = 'Carrinho';
   static String titleAlertError = 'Erro!';
+  static String titleMyOrders = 'Meus Pedidos';
   static String closeAlertError = 'Fechar';
   static String drawerLabelStore = 'Loja';
   static String drawerLabelOrders = 'Pedidos';

@@ -3,10 +3,10 @@ import 'package:flutter_store/utils/app_routes.dart';
 import 'package:flutter_store/utils/app_string.dart';
 
 import 'package:provider/provider.dart';
-import 'package:flutter_store/providers/cart.dart';
-import 'package:flutter_store/providers/products.dart';
+import 'package:flutter_store/providers/cart_provider.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 
-import 'package:flutter_store/widgets/badge.dart';
+import 'package:flutter_store/widgets/badge_widget.dart';
 import 'package:flutter_store/widgets/product_grid.dart';
 import 'package:flutter_store/widgets/app_drawer_widget.dart';
 
@@ -18,8 +18,8 @@ class ProductOverviewPage extends StatefulWidget {
 }
 
 class _ProductOverviewPageState extends State<ProductOverviewPage> {
-  bool _showFavoriteOnly = false;
   bool _isLoading = true;
+  bool _showFavoriteOnly = false;
 
   @override
   void initState() {
@@ -59,16 +59,16 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
               )
             ],
           ),
-          Consumer<Cart>(
+          Consumer<CartProvider>(
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.of(context).pushNamed(AppRoutes.CART);
               },
             ),
-            builder: (_, cart, child) => Badge(
+            builder: (_, cart, child) => BadgeWidget(
               value: cart.itemsCount.toString(),
-              child: child,
+              child: child!,
             ),
           )
         ],

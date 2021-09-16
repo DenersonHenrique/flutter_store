@@ -5,16 +5,16 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductModel productModel =
-        ModalRoute.of(context).settings.arguments as ProductModel;
+        ModalRoute.of(context)!.settings.arguments as ProductModel;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(productModel.title),
+        title: Text(productModel.name),
       ),
       body: Column(
         children: <Widget>[
           Container(
-            height: 300,
+            height: 300.0,
             width: double.infinity,
             child: Image.network(
               productModel.imageUrl,
@@ -22,30 +22,30 @@ class ProductDetailPage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 10.0,
           ),
           Text(
             'R\$ ${productModel.price}',
             style: TextStyle(
               color: Colors.grey,
-              fontSize: 20,
+              fontSize: 20.0,
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 10.0,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             width: double.infinity,
             child: Text(
               '${productModel.description}',
               textAlign: TextAlign.center,
               // style: TextStyle(
               //   color: Colors.grey,
-              //   fontSize: 20,
+              //   fontSize: 20.0,
               // ),
             ),
-          )
+          ),
         ],
       ),
     );
