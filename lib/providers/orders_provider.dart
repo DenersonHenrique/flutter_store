@@ -9,8 +9,8 @@ import 'package:flutter_store/providers/cart_provider.dart';
 class OrderProvider with ChangeNotifier {
   final String _baseUrl = '${AppUrl.BASE_API}/orders';
   List<OrderModel> _items = [];
-  String _token;
-  String _userId;
+  final String? _token;
+  final String? _userId;
 
   OrderProvider([this._token, this._userId, this._items = const []]);
 

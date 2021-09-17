@@ -9,8 +9,8 @@ import 'package:flutter_store/exceptions/http_exception.dart';
 class ProductsProvider with ChangeNotifier {
   final String _baseUrl = '${AppUrl.BASE_API}/products';
   List<ProductModel> _items = [];
-  String _token;
-  String _userId;
+  final String? _token;
+  final String? _userId;
 
   ProductsProvider([this._token, this._userId, this._items = const []]);
 

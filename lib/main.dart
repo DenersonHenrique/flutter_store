@@ -10,7 +10,7 @@ import 'package:flutter_store/views/auth_home_page.dart';
 import 'package:flutter_store/views/product_form_page.dart';
 import 'package:flutter_store/views/product_detail_page.dart';
 
-import 'package:flutter_store/providers/auth.dart';
+import 'package:flutter_store/providers/auth_provider.dart';
 import 'package:flutter_store/providers/cart_provider.dart';
 import 'package:flutter_store/providers/orders_provider.dart';
 import 'package:flutter_store/providers/products_provider.dart';
@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, ProductsProvider>(
           create: (_) => new ProductsProvider(),
           update: (ctx, auth, previousProducts) => ProductsProvider(
-            auth.token,
-            auth.userId,
-            previousProducts!.items,
+            auth.token ?? '',
+            auth.userId ?? '',
+            previousProducts?.items ?? [],
           ),
         ),
         ChangeNotifierProvider(
@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, OrderProvider>(
           create: (_) => new OrderProvider(),
           update: (ctx, auth, previousOrders) => OrderProvider(
-            auth.token,
-            auth.userId,
-            previousOrders!.items,
+            auth.token ?? '',
+            auth.userId ?? '',
+            previousOrders?.items ?? [],
           ),
         ),
       ],
