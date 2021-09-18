@@ -118,7 +118,7 @@ class Auth with ChangeNotifier {
   }
 
   void _clearLogoutTimer() {
-    _logoutTimer!.cancel();
+    _logoutTimer?.cancel();
     _logoutTimer = null;
   }
 }

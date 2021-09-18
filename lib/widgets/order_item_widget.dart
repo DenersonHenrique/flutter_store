@@ -27,9 +27,7 @@ class _OrderWidgetState extends State<OrderWidget> {
               trailing: IconButton(
                 icon: Icon(Icons.expand_more),
                 onPressed: () {
-                  setState(() {
-                    _expanded = !_expanded;
-                  });
+                  setState(() => _expanded = !_expanded);
                 },
               ),
             ),
@@ -47,14 +45,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            product.title,
+                            product.name,
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            '${product.quantity} X R\$ ${product.price}',
+                            '${product.quantity} X R\$ ${product.price.toStringAsFixed(2)}',
                             style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.grey,

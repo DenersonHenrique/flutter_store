@@ -38,15 +38,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
     super.didChangeDependencies();
 
     if (_formData.isEmpty) {
-      final product =
-          ModalRoute.of(context)?.settings.arguments as ProductModel;
+      final argument = ModalRoute.of(context)?.settings.arguments;
 
-      _formData['id'] = product.id;
-      _formData['title'] = product.name;
-      _formData['price'] = product.price;
-      _formData['description'] = product.description;
-      _formData['imageUrl'] = product.imageUrl;
-      _imageUrlController.text = product.imageUrl;
+      if (argument != null) {
+        final product = argument as ProductModel;
+        _formData['id'] = product.id;
+        _formData['name'] = product.name;
+        _formData['price'] = product.price;
+        _formData['description'] = product.description;
+        _formData['imageUrl'] = product.imageUrl;
+        _imageUrlController.text = product.imageUrl;
+      }
     }
   }
 
@@ -70,32 +72,19 @@ class _ProductFormPageState extends State<ProductFormPage> {
   Future<void> _saveForm() async {
     final isValid = _form.currentState?.validate() ?? false;
 
-    if (isValid) {
+    if (!isValid) {
       return;
     }
 
     _form.currentState!.save();
 
-    final newProduct = ProductModel(
-      id: _formData['id'] as String,
-      name: _formData['name'] as String,
-      price: _formData['price'] as double,
-      description: _formData['description'] as String,
-      imageUrl: _formData['imageUrl'] as String,
-    );
-
-    final products = Provider.of<ProductsProvider>(context, listen: false);
-
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
-      if (_formData['id'] == null) {
-        await products.addProduct(newProduct);
-      } else {
-        await products.updateProducts(newProduct);
-      }
+      await Provider.of<ProductsProvider>(
+        context,
+        listen: false,
+      ).saveProduct(_formData);
       Navigator.of(context).pop();
     } catch (error) {
       await showDialog<void>(
@@ -112,9 +101,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
         ),
       );
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
@@ -126,9 +113,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {
-              _saveForm;
-            },
+            onPressed: _saveForm,
           )
         ],
       ),
@@ -143,7 +128,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 child: ListView(
                   children: <Widget>[
                     TextFormField(
-                      initialValue: _formData['name'] as String,
+                      initialValue: (_formData['name'] ?? '') as String,
                       decoration: InputDecoration(labelText: 'Nome'),
                       textInputAction:
                           TextInputAction.next, // Next Input keyboard.
@@ -174,7 +159,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                             .requestFocus(_descriptionFocusNode);
                       },
                       onSaved: (value) =>
-                          _formData['price'] = double.parse(value ?? ''),
+                          _formData['price'] = double.parse(value ?? '0'),
                       validator: (value) {
                         final priceString = value ?? '';
                         final price = double.tryParse(priceString) ?? -1;
@@ -185,7 +170,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       },
                     ),
                     TextFormField(
-                      initialValue: _formData['description'] as String,
+                      initialValue: _formData['description']?.toString(),
                       decoration: InputDecoration(labelText: 'Descrição'),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,

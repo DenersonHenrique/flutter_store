@@ -27,6 +27,8 @@ class OrderProvider with ChangeNotifier {
     final response = await http.get(
       Uri.parse('$_baseUrl/$_userId.json?auth=$_token'),
     );
+
+    if (response.body == 'null') return;
     Map<String, dynamic> data = json.decode(response.body);
 
     // _items.clear();
@@ -42,7 +44,7 @@ class OrderProvider with ChangeNotifier {
               price: item['price'],
               productId: item['productId'],
               quantity: item['quantity'],
-              title: item['title'],
+              name: item['name'],
             );
           }).toList(),
         ),
@@ -65,7 +67,7 @@ class OrderProvider with ChangeNotifier {
             .map((item) => {
                   'id': item.id,
                   'productId': item.productId,
-                  'title': item.title,
+                  'name': item.name,
                   'quantity': item.quantity,
                   'price': item.price
                 })

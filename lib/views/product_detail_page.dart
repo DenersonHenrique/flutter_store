@@ -25,7 +25,7 @@ class ProductDetailPage extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            'R\$ ${productModel.price}',
+            'R\$ ${productModel.price.toStringAsFixed(2)}',
             style: TextStyle(
               color: Colors.grey,
               fontSize: 20.0,

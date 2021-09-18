@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +26,8 @@ class ProductsProvider with ChangeNotifier {
   } // Return copy of Items.
 
   Future<void> loadProducts() async {
+    _items.clear();
+
     final response = await http.get(
       Uri.parse('$_baseUrl.json?auth=$_token'),
     );
@@ -33,8 +36,8 @@ class ProductsProvider with ChangeNotifier {
     );
     final favoriteMap = jsonDecode(favoriteResponse.body);
 
+    if (response.body == 'null') return;
     Map<String, dynamic> data = json.decode(response.body);
-    _items.clear();
 
     data.forEach((key, value) {
       final isFavorite =
@@ -43,7 +46,7 @@ class ProductsProvider with ChangeNotifier {
         ProductModel(
           id: key,
           name: value['name'],
-          price: value['price'],
+          price: value['price'] as double,
           description: value['description'],
           imageUrl: value['imageUrl'],
           isFavorite: isFavorite,
@@ -52,6 +55,24 @@ class ProductsProvider with ChangeNotifier {
     });
     notifyListeners();
     return Future.value();
+  }
+
+  Future<void> saveProduct(Map<String, Object> data) {
+    bool hasId = data['id'] != null;
+
+    final product = ProductModel(
+      id: hasId ? data['id'] as String : Random().nextDouble().toString(),
+      name: data['name'] as String,
+      price: data['price'] as double,
+      description: data['description'] as String,
+      imageUrl: data['imageUrl'] as String,
+    );
+
+    if (hasId) {
+      return updateProduct(product);
+    } else {
+      return addProduct(product);
+    }
   }
 
   Future<void> addProduct(ProductModel product) async {
@@ -79,12 +100,12 @@ class ProductsProvider with ChangeNotifier {
     notifyListeners(); // Notify components
   }
 
-  Future<void> updateProducts(ProductModel product) async {
+  Future<void> updateProduct(ProductModel product) async {
     final index = _items.indexWhere((item) => item.id == product.id);
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl.json?auth=$_token'),
+        Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'),
         body: json.encode({
           'name': product.name,
           'description': product.description,

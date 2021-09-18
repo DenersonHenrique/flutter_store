@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: AppString.appTitle,
         theme: ThemeData(
+          primaryColor: Colors.purple,
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrange,
@@ -65,7 +66,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: ProductOverviewPage(),
         debugShowCheckedModeBanner: false,
         routes: {
           AppRoutes.AUTH_HOME: (ctx) => AuthHomePage(),

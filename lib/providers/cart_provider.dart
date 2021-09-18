@@ -30,7 +30,7 @@ class CartProvider with ChangeNotifier {
         (element) => CartItemModel(
           id: element.id,
           productId: product.id,
-          title: element.title,
+          name: element.name,
           price: element.price,
           quantity: element.quantity + 1,
         ),
@@ -41,7 +41,7 @@ class CartProvider with ChangeNotifier {
         () => CartItemModel(
           id: Random().nextDouble().toString(),
           productId: product.id,
-          title: product.name,
+          name: product.name,
           price: product.price,
           quantity: 1,
         ),
@@ -68,7 +68,7 @@ class CartProvider with ChangeNotifier {
         (element) => CartItemModel(
           id: element.id,
           productId: productID,
-          title: element.title,
+          name: element.name,
           price: element.price,
           quantity: element.quantity - 1,
         ),
