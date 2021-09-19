@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/providers/products.dart';
 import 'package:flutter_store/models/product_model.dart';
 import 'package:flutter_store/widgets/product_item.dart';
+import 'package:flutter_store/providers/products_provider.dart';
 
 class ProductGrid extends StatelessWidget {
   final bool showFavoriteOnly;
@@ -16,7 +16,7 @@ class ProductGrid extends StatelessWidget {
         : Provider.of<ProductsProvider>(context).items;
 
     return GridView.builder(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10.0),
       itemCount: productsList.length,
       itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
         value: productsList[index],

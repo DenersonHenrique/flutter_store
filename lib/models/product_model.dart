@@ -5,27 +5,30 @@ import 'package:flutter_store/utils/app_urls.dart';
 
 class ProductModel with ChangeNotifier {
   final String id;
-  final String title;
+  final String name;
   final String description;
   final double price;
   final String imageUrl;
   bool isFavorite;
 
   ProductModel({
-    this.id,
-    @required this.title,
-    @required this.price,
-    @required this.description,
-    @required this.imageUrl,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.imageUrl,
     this.isFavorite = false,
   });
 
   void _toggleFavorite() {
     isFavorite = !isFavorite;
-    notifyListeners(); // Notify components
+    notifyListeners();
   }
 
-  Future<void> toggleFavorite(String token, String userId) async {
+  Future<void> toggleFavorite(
+    String? token,
+    String? userId,
+  ) async {
     _toggleFavorite();
 
     try {
@@ -33,14 +36,14 @@ class ProductModel with ChangeNotifier {
           '${AppUrl.BASE_API}/userFavorites/$userId/$id.json?auth=$token';
 
       final response = await http.put(
-        _baseUrl,
+        Uri.parse(_baseUrl),
         body: json.encode(isFavorite),
       );
 
       if (response.statusCode >= 400) {
         _toggleFavorite();
       }
-    } catch (error) {
+    } catch (_) {
       _toggleFavorite();
     }
   }

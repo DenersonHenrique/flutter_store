@@ -1,4 +1,10 @@
+import 'package:flutter_store/utils/app_string.dart';
+
 class AuthException implements Exception {
+  final String key;
+
+  const AuthException(this.key);
+
   static const Map<String, String> errors = {
     "EMAIL_EXISTS": "E-mail utilizando por outra conta.",
     "OPERATION_NOT_ALLOWED": "Operação não permitida.",
@@ -8,14 +14,8 @@ class AuthException implements Exception {
     "USER_DISABLED": "Usuário desativado.",
   };
 
-  final String key;
-
-  const AuthException(this.key);
-
   @override
   String toString() {
-    return errors.containsKey(key)
-        ? errors[key]
-        : 'Ocorreu um erro durante atenticação';
+    return errors[key] ?? AppString.authenticationError;
   }
 }

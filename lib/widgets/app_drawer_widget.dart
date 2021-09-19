@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/providers/auth.dart';
 import 'package:flutter_store/utils/app_routes.dart';
 import 'package:flutter_store/utils/app_string.dart';
+import 'package:flutter_store/providers/auth_provider.dart';
 
 class AppDrawerWidget extends StatelessWidget {
   @override
@@ -42,7 +42,12 @@ class AppDrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text(AppString.drawerLabelLogout),
-            onTap: () => Provider.of<Auth>(context, listen: false).logout(),
+            onTap: () {
+              Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).pushReplacementNamed(
+                AppRoutes.AUTH_HOME,
+              );
+            },
           ),
         ],
       ),

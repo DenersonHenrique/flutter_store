@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/providers/orders.dart';
+import 'package:flutter_store/utils/app_string.dart';
+import 'package:flutter_store/providers/orders_provider.dart';
 import 'package:flutter_store/widgets/app_drawer_widget.dart';
 import 'package:flutter_store/widgets/order_item_widget.dart';
 
@@ -14,21 +15,18 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   void initState() {
-    Provider.of<Orders>(context, listen: false).loadOrders().then((_) {
-      setState(() {
-        _isLoading = false;
-      });
+    Provider.of<OrderProvider>(context, listen: false).loadOrders().then((_) {
+      setState(() => _isLoading = false);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Orders ordersProvider = Provider.of(context);
-
+    final OrderProvider orderProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Pedidos'),
+        title: Text(AppString.titleMyOrders),
       ),
       drawer: AppDrawerWidget(),
       body: _isLoading == true
@@ -36,9 +34,10 @@ class _OrderPageState extends State<OrderPage> {
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
-              itemCount: ordersProvider.itemsCount,
-              itemBuilder: (context, index) =>
-                  OrderWidget(ordersProvider.orders[index]),
+              itemCount: orderProvider.itemsCount,
+              itemBuilder: (context, index) => OrderWidget(
+                orderProvider.items[index],
+              ),
             ),
     );
   }
