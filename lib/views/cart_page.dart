@@ -31,7 +31,7 @@ class CartPage extends StatelessWidget {
                     AppString.labelTotal,
                     style: TextStyle(fontSize: 20.0),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20.0,
                   ),
                   Chip(
@@ -50,7 +50,7 @@ class CartPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Expanded(
             child: ListView.builder(
               itemCount: cartProvider.itemsCount,

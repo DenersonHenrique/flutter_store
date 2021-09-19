@@ -42,7 +42,8 @@ class ProductCrudWidget extends StatelessWidget {
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: Text(AppString.alertTitleConfirmDelete),
-                    content: Text("Remover \'${productModel.name}'?"),
+                    content: Text(
+                        "${AppString.labelRemove} \'${productModel.name}'?"),
                     actions: <Widget>[
                       TextButton(
                         child: Text(AppString.alertActionLabelConfirm),

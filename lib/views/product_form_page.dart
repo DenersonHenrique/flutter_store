@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_store/utils/app_string.dart';
@@ -90,11 +91,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
       await showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('Erro de requisição.'),
+          title: Text(AppString.requestError),
           content: Text(error.toString()),
           actions: <Widget>[
             TextButton(
-              child: Text('Ok'),
+              child: Text(AppString.labelOk),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
@@ -129,25 +130,32 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   children: <Widget>[
                     TextFormField(
                       initialValue: (_formData['name'] ?? '') as String,
-                      decoration: InputDecoration(labelText: 'Nome'),
-                      textInputAction:
-                          TextInputAction.next, // Next Input keyboard.
+                      decoration: InputDecoration(
+                        labelText: AppString.labelName,
+                      ),
+                      textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) {
                         FocusScope.of(context).requestFocus(_priceFocusNode);
                       },
                       onSaved: (value) => _formData['name'] = value ?? '',
                       validator: (value) {
                         final name = value ?? '';
-                        if (name.trim().isEmpty) return 'Informar nome.';
+                        if (name.trim().isEmpty)
+                          return AppString.invalidNameValidator;
                         if (name.trim().length < 3)
-                          return 'Mínimo de 3 caracteres.';
+                          return AppString.caractereValidator;
                         else
                           return null;
                       },
                     ),
                     TextFormField(
-                      initialValue: _formData['price']?.toString(),
-                      decoration: InputDecoration(labelText: 'Preço'),
+                      // initialValue: _formData['price']?.toString(),
+                      initialValue: NumberFormat.currency(symbol: '').format(
+                        _formData['price'],
+                      ),
+                      decoration: InputDecoration(
+                        labelText: AppString.labelPrice,
+                      ),
                       textInputAction:
                           TextInputAction.next, // Next Input keyboard.
                       keyboardType: TextInputType.numberWithOptions(
@@ -164,14 +172,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         final priceString = value ?? '';
                         final price = double.tryParse(priceString) ?? -1;
                         if (price <= 0) {
-                          return 'Informe um preço válido.';
+                          return AppString.invalidPriceValidator;
                         } else
                           return null;
                       },
                     ),
                     TextFormField(
                       initialValue: _formData['description']?.toString(),
-                      decoration: InputDecoration(labelText: 'Descrição'),
+                      decoration: InputDecoration(
+                        labelText: AppString.labelDescription,
+                      ),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       focusNode: _descriptionFocusNode,
@@ -180,7 +190,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       validator: (value) {
                         final description = value ?? '';
                         if (description.trim().isEmpty)
-                          return 'Informar descrição.';
+                          return AppString.invalidDescriptionValidator;
                         else
                           return null;
                       },
@@ -191,7 +201,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         Expanded(
                           child: TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'URL Imagem',
+                              labelText: AppString.labelUrlImage,
                             ),
                             keyboardType: TextInputType.url,
                             textInputAction: TextInputAction.done,
@@ -206,7 +216,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                               final imageURL = value ?? '';
                               if (imageURL.trim().isEmpty ||
                                   !isValidImageUrl(imageURL))
-                                return 'Informar uma url válida.';
+                                return AppString.invalidImageValidator;
                               else
                                 return null;
                             },

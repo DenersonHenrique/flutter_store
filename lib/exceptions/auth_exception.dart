@@ -1,3 +1,5 @@
+import 'package:flutter_store/utils/app_string.dart';
+
 class AuthException implements Exception {
   final String key;
 
@@ -14,6 +16,6 @@ class AuthException implements Exception {
 
   @override
   String toString() {
-    return errors[key] ?? 'Ocorreu um erro durante atenticação';
+    return errors[key] ?? AppString.authenticationError;
   }
 }

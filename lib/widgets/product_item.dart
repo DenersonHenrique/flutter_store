@@ -22,7 +22,6 @@ class ProductItemWidget extends StatelessWidget {
               AppRoutes.PRODUCT_DETAIL,
               arguments: productModel,
             );
-
             // Navigator.of(context).push(MaterialPageRoute(
             //   builder: (ctx) => ProductDetailPage(productModel),
             // ));

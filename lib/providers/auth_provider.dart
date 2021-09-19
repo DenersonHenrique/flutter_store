@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_store/data/store.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+import 'package:flutter_store/data/store.dart';
+import 'package:flutter_store/utils/app_urls.dart';
 import 'package:flutter_store/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
@@ -35,7 +36,7 @@ class Auth with ChangeNotifier {
     String urlSegment,
   ) async {
     final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=';
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=${AppUrl.AUTH_KEY}';
 
     final response = await http.post(
       Uri.parse(url),

@@ -51,7 +51,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
     } catch (error) {
-      _showErrorDialog('Erro inesperado.');
+      _showErrorDialog(AppString.unexpectedError);
     }
 
     setState(() => _isLoading = false);
@@ -93,7 +93,7 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Container(
-        height: _isLogin() ? 300 : 370,
+        height: _isLogin() ? 300.0 : 370.0,
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
         child: Form(
