@@ -11,7 +11,8 @@ class AuthCardWidget extends StatefulWidget {
   _AuthCardWidgetState createState() => _AuthCardWidgetState();
 }
 
-class _AuthCardWidgetState extends State<AuthCardWidget> {
+class _AuthCardWidgetState extends State<AuthCardWidget>
+    with TickerProviderStateMixin {
   final Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -22,8 +23,48 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
   GlobalKey<FormState> _form = GlobalKey();
   final _passwordController = TextEditingController();
 
+  AnimationController? _controller;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
+
   bool _isLogin() => _authMode == AuthMode.Login;
-  bool _isSignup() => _authMode == AuthMode.Signup;
+  // bool _isSignup() => _authMode == AuthMode.Signup;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.linear,
+      ),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, -1.5),
+      end: Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.linear,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
 
   Future<void> _submit() async {
     if (!_form.currentState!.validate()) {
@@ -78,8 +119,10 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
   void _switchAuthMode() {
     if (_isLogin()) {
       setState(() => _authMode = AuthMode.Signup);
+      _controller?.forward();
     } else {
       setState(() => _authMode = AuthMode.Login);
+      _controller?.reverse();
     }
   }
 
@@ -92,10 +135,12 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Container(
-        height: _isLogin() ? 300.0 : 370.0,
+      child: AnimatedContainer(
+        height: _isLogin() ? 310.0 : 370.0,
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
         child: Form(
           key: _form,
           child: Column(
@@ -128,22 +173,35 @@ class _AuthCardWidgetState extends State<AuthCardWidget> {
                 },
                 onSaved: (password) => _authData['password'] = password ?? '',
               ),
-              if (_isSignup())
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: AppString.labelConfirmPassword,
-                  ),
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  validator: _isLogin()
-                      ? null
-                      : (value) {
-                          if (value != _passwordController.text) {
-                            return AppString.notConfirmedPassword;
-                          }
-                          return null;
-                        },
+              AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: _isLogin() ? 0 : 60.0,
+                  maxHeight: _isLogin() ? 0 : 120.0,
                 ),
+                duration: Duration(milliseconds: 300),
+                curve: Curves.linear,
+                child: FadeTransition(
+                  opacity: _opacityAnimation!,
+                  child: SlideTransition(
+                    position: _slideAnimation!,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: AppString.labelConfirmPassword,
+                      ),
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      validator: _isLogin()
+                          ? null
+                          : (value) {
+                              if (value != _passwordController.text) {
+                                return AppString.notConfirmedPassword;
+                              }
+                              return null;
+                            },
+                    ),
+                  ),
+                ),
+              ),
               Spacer(),
               _isLoading
                   ? CircularProgressIndicator()

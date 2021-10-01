@@ -26,9 +26,12 @@ class ProductItemWidget extends StatelessWidget {
             //   builder: (ctx) => ProductDetailPage(productModel),
             // ));
           },
-          child: Image.network(
-            productModel.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: productModel.id,
+            child: Image.network(
+              productModel.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
