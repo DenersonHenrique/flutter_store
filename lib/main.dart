@@ -20,6 +20,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = ThemeData(
+      fontFamily: 'Lato',
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -47,13 +50,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: AppString.appTitle,
-        theme: ThemeData(
-          primaryColor: Colors.purple,
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
+        theme: themeData.copyWith(
+          colorScheme: themeData.colorScheme.copyWith(
+            primary: Colors.purple,
+            secondary: Colors.deepOrange,
           ),
-          fontFamily: 'Lato',
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
