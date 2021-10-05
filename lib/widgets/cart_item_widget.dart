@@ -40,7 +40,7 @@ class CartItemWidget extends StatelessWidget {
           );
         },
         background: Container(
-          color: Theme.of(context).errorColor,
+          color: Theme.of(context).colorScheme.onError,
           child: Icon(
             Icons.delete,
             color: Colors.white,
@@ -64,7 +64,7 @@ class CartItemWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: FittedBox(

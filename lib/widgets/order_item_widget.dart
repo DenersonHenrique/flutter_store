@@ -15,7 +15,12 @@ class _OrderWidgetState extends State<OrderWidget> {
   bool _expanded = false;
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) {
+    final itemsHeight = (widget.order.products.length * 30.0) + 10.0;
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      height: _expanded ? itemsHeight + 95.0 : 95.0,
+      child: Card(
         margin: const EdgeInsets.all(10.0),
         child: Column(
           children: [
@@ -31,40 +36,42 @@ class _OrderWidgetState extends State<OrderWidget> {
                 },
               ),
             ),
-            if (_expanded)
-              Container(
-                height: (widget.order.products.length * 30.0) + 10.0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                  vertical: 4.0,
-                ),
-                child: ListView(
-                  children: widget.order.products.map(
-                    (product) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            product.name,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '${product.quantity} X R\$ ${product.price.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ).toList(),
-                ),
+            AnimatedContainer(
+              height: _expanded ? itemsHeight : 0,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15.0,
+                vertical: 4.0,
               ),
+              duration: Duration(milliseconds: 300),
+              child: ListView(
+                children: widget.order.products.map(
+                  (product) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          product.name,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${product.quantity} X R\$ ${product.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
           ],
         ),
-      );
+      ),
+    );
+  }
 }
