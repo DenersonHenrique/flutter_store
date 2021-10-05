@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/widgets/auth_form_card.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/widgets/auth_form_card.dart';
 
 class AuthPage extends StatelessWidget {
   @override

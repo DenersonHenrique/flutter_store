@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_store/data/store.dart';
-import 'package:flutter_store/utils/app_urls.dart';
-import 'package:flutter_store/exceptions/auth_exception.dart';
+import 'package:flutter_store/app/data/store.dart';
+import 'package:flutter_store/app/utils/app_urls.dart';
+import 'package:flutter_store/app/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
   String? _token;

@@ -2,10 +2,10 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_store/utils/app_urls.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/models/product_model.dart';
-import 'package:flutter_store/exceptions/http_exception.dart';
+import 'package:flutter_store/app/utils/app_urls.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/models/product_model.dart';
+import 'package:flutter_store/app/exceptions/http_exception.dart';
 
 class ProductsProvider with ChangeNotifier {
   final String _baseUrl = '${AppUrl.BASE_API}/products';

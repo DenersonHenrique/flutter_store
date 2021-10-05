@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_store/utils/app_urls.dart';
+import 'package:flutter_store/app/utils/app_urls.dart';
 
 class ProductModel with ChangeNotifier {
   final String id;

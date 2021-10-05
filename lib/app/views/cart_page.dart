@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/providers/cart_provider.dart';
-import 'package:flutter_store/widgets/cart_item_widget.dart';
-import 'package:flutter_store/providers/orders_provider.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/providers/cart_provider.dart';
+import 'package:flutter_store/app/widgets/cart_item_widget.dart';
+import 'package:flutter_store/app/providers/orders_provider.dart';
 
 class CartPage extends StatelessWidget {
   @override

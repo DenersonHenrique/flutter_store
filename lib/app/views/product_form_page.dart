@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/models/product_model.dart';
-import 'package:flutter_store/providers/products_provider.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/models/product_model.dart';
+import 'package:flutter_store/app/providers/products_provider.dart';
 
 class ProductFormPage extends StatefulWidget {
   @override

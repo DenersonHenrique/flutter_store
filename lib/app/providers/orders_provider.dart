@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_store/utils/app_urls.dart';
-import 'package:flutter_store/models/order_model.dart';
-import 'package:flutter_store/models/cart_item_model.dart';
-import 'package:flutter_store/providers/cart_provider.dart';
+import 'package:flutter_store/app/utils/app_urls.dart';
+import 'package:flutter_store/app/models/order_model.dart';
+import 'package:flutter_store/app/models/cart_item_model.dart';
+import 'package:flutter_store/app/providers/cart_provider.dart';
 
 class OrderProvider with ChangeNotifier {
   final String _baseUrl = '${AppUrl.BASE_API}/orders';

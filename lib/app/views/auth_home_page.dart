@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/views/auth_page.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/providers/auth_provider.dart';
-import 'package:flutter_store/views/products_overview_page.dart';
+import 'package:flutter_store/app/views/auth_page.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/providers/auth_provider.dart';
+import 'package:flutter_store/app/views/products_overview_page.dart';
 
 class AuthHomePage extends StatelessWidget {
   const AuthHomePage({Key? key}) : super(key: key);

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_store/utils/app_routes.dart';
-import 'package:flutter_store/utils/app_string.dart';
+import 'package:flutter_store/app/utils/app_routes.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
 
 import 'package:provider/provider.dart';
-import 'package:flutter_store/providers/cart_provider.dart';
-import 'package:flutter_store/providers/products_provider.dart';
+import 'package:flutter_store/app/providers/cart_provider.dart';
+import 'package:flutter_store/app/providers/products_provider.dart';
 
-import 'package:flutter_store/widgets/badge_widget.dart';
-import 'package:flutter_store/widgets/product_grid.dart';
-import 'package:flutter_store/widgets/app_drawer_widget.dart';
+import 'package:flutter_store/app/widgets/badge_widget.dart';
+import 'package:flutter_store/app/widgets/product_grid.dart';
+import 'package:flutter_store/app/widgets/app_drawer_widget.dart';
 
 enum FilterOptions { Favorite, All }
 

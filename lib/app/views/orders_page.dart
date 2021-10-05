@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_store/utils/app_string.dart';
-import 'package:flutter_store/providers/orders_provider.dart';
-import 'package:flutter_store/widgets/app_drawer_widget.dart';
-import 'package:flutter_store/widgets/order_item_widget.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
+import 'package:flutter_store/app/providers/orders_provider.dart';
+import 'package:flutter_store/app/widgets/app_drawer_widget.dart';
+import 'package:flutter_store/app/widgets/order_item_widget.dart';
 
 class OrderPage extends StatefulWidget {
   @override

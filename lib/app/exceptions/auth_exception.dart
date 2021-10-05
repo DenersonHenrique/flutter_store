@@ -1,4 +1,4 @@
-import 'package:flutter_store/utils/app_string.dart';
+import 'package:flutter_store/app/utils/app_string.dart';
 
 class AuthException implements Exception {
   final String key;
